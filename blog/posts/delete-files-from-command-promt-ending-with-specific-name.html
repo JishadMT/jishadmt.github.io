@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Senior Software Engineer Portfolio">
+    <title>Jithil Jishad - Senior Software Engineer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="../css/blogs.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">&larr;&nbsp;Jithil's Blog</a>
+            <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
+            <!-- <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="blog/index.html">Blog</a></li>
+                </ul>
+            </div> -->
+        </div>
+    </nav>
+
+    <!-- Main Section -->
+    <header class="container">
+        <img src="../assets/del cmd.png" class="blog-banner-image mb-5">
+        <label class="text-secondary mb-3">09 November 2024</label>
+        <h2 class="mb-5">How to delete all files in a folder ending with specific name?</h2>
+        
+    </header>
+
+    <article class="container">
+        <p>
+            Managing files from the Command Prompt (CMD) can be a real time-saver, especially when you need to delete multiple files with a specific naming pattern. Let’s say you want to delete all files ending with "_copy"—you can do this either within a single directory or across all subdirectories. Here’s how to handle both scenarios using CMD.
+        </p>
+        <h5 class="mt-4">
+            Command to delete only inside current folder
+        </h5>
+        <p>
+            If you only need to delete files ending with "_copy" in the current directory, you can use the del command directly. Open your command prompt in the current directory and enter the following:
+        </p>
+        <pre class="line-numbers">
+            <code class="language-bash">del *_copy.*</code>
+        </pre>
+        <p>
+            This command deletes all files in the current directory with names ending in _copy followed by any extension, such as file_copy.txt, image_copy.jpg, etc.
+        </p>
+        <h5 class="mt-4">
+            Command to recursively delete from all folders inside the current folder
+        </h5>
+        <p>
+            If your target files are spread across subdirectories and you want to delete them all in one go, you’ll need a different approach using the for loop. This method tells CMD to delete files matching the pattern across the current folder and all subfolders.
+        </p>
+        <pre class="line-numbers">
+            <code class="language-bash">for /r %i in (*_copy.*) do del "%i"</code>
+        </pre>
+        <p>
+            Here’s what each part does:
+            <ul>
+                <li><code>for /r</code>: Searches the current directory and all subdirectories.</li>
+                <li><code>%i in (*_copy.*)</code>: Finds files that end with _copy and have any file extension.</li>
+                <li><code>do del "%i"</code>: Deletes each matching file it finds.</li>
+            </ul>
+        </p>
+        <p>
+            Be careful: this command deletes files permanently without a prompt, so double-check before running it.
+        </p>
+    </article>
+
+    <section class="container mt-5">
+        
+    </section>
+    
+
+    <!-- Contact Section -->
+    <section id="contact" class="container py-5 text-center">
+        <h2>Contact Me</h2>
+        <p>If you’d like to get in touch, please reach out via email or LinkedIn.</p>
+        <a href="mailto:your.jithilmt@gmail.com" class="btn btn-primary">Email Me</a>
+        <a href="https://www.linkedin.com/in/jithil-jishad/" class="btn btn-secondary" target="_blank">Connect on LinkedIn</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-3">
+        <div class="container text-center">
+            <p>© 2024 Jithil Jishad's Portfolio | All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>
