@@ -1,0 +1,10 @@
+.btn-cta::after {
+    padding-left: 6px;
+    content: '\00BB';
+    font-size: 1.5rem;
+    line-height: 1rem;
+}
+
+.bg-purple {
+    background-color: var(--bs-purple);
+}
