@@ -8,3 +8,7 @@
 .bg-purple {
     background-color: var(--bs-purple);
 }
+
+.border-purple {
+    border-color: var(--bs-purple);
+}
