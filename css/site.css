@@ -1,9 +1,23 @@
 .btn-cta::after {
     padding-left: 6px;
     content: '\00BB';
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     line-height: 1rem;
+    vertical-align: sub;
+    position: relative;
+    animation: slide-right-loop 1s infinite;
 }
+
+@keyframes slide-right-loop {
+    from {
+        left: 0px;
+        opacity: 1;
+    }
+    to {
+        left: 8px;
+        opacity: 0;
+    }
+  }
 
 .bg-purple {
     background-color: var(--bs-purple);
@@ -11,4 +25,8 @@
 
 .border-purple {
     border-color: var(--bs-purple);
+}
+
+img {
+    max-width: 100%;
 }

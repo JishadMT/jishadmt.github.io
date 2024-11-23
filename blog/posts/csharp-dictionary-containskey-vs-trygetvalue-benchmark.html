@@ -181,14 +181,14 @@
         <p><b>Summary of the observations:</b></p>
         <p>Here I took <code>ReadWithoutCheck</code> function as baseline, where we read directly from the dictionary without checking whether it has the key or not. 
             <br/>(Note: this is the most unsafe way to read value from dictionary, as it is possible that the dictionary may not contain the key-value pair you are looking for, thus throwing an exception)
-            <br/><br/>It takes <b>346 ms</b> to read 10k values from the dictionary.
+            <br/><br/>It takes <b>346 &micro;s</b> to read 10k values from the dictionary.
         </p>
         <ul>
             <li>
-                <code>ReadWithContainsKey</code> function is more than 2x slower compared to baseline, taking <b>759 ms</b>.
+                <code>ReadWithContainsKey</code> function is more than 2x slower compared to baseline, taking <b>759 &micro;s</b>.
             </li>
             <li>
-                <code>ReadWithTryGetValue</code> function is almost as fast as baseline, taking only <b>387 ms</b>.
+                <code>ReadWithTryGetValue</code> function is almost as fast as baseline, taking only <b>387 &micro;s</b>.
             </li>
         </ul>
 
