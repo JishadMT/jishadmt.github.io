@@ -19,12 +19,17 @@
     }
   }
 
-.bg-purple {
+.btn-purple {
     background-color: var(--bs-purple);
+    border-color: var(--bs-purple);
 }
 
-.border-purple {
-    border-color: var(--bs-purple);
+.btn-purple:hover,
+.btn-purple:active,
+.btn-purple:focus,
+.btn-purple:focus-visible {
+    background-color: #5c36a0 !important;
+    border-color: #5c36a0 !important;
 }
 
 img {
