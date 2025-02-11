@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/blazor-src/PortfolioWebassembly/.vs
+/blazor-src/PortfolioWebassembly/PortfolioWebassembly/bin
+/blazor-src/PortfolioWebassembly/PortfolioWebassembly/obj
+/blazor-src/PortfolioWebassembly/PortfolioWebassembly/Properties/PublishProfiles
