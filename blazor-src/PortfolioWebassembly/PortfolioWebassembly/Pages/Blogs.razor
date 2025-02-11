@@ -1,0 +1,55 @@
+@page "/blogs"
+
+@using PortfolioWebassembly.ViewModels
+@using PortfolioWebassembly.Services
+
+<PageTitle>Blogs</PageTitle>
+
+<!-- Main Section -->
+<header class="container py-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-6">Scribbled down things I learnt, for your reference.</h1>
+        </div>
+    </div>
+</header>
+<section id="blogs-list">
+    <div class="container d-flex flex-wrap" id="blog-list-container">
+        @foreach (var blog in blogs)
+        {
+            <div class="mb-3 p-3 rounded col-sm-12 col-md-6">
+                <a href="blogs/@blog.Link" class="blog-card-link">
+                    <div class="p-2 blog-thumbnail-container" style="background-image: url('assets/images/blogs/@blog.Image')">
+                    </div>
+                </a>
+                <div class="col px-3 py-2">
+                    <a class="h4 text-decoration-none" href="blogs/@blog.Link">@blog.Title</a>
+                    <div class="text-secondary fw-light mb-3">@blog.Date</div>
+                    <p>@blog.Description</p>
+                    <div class="d-flex flex-row flex-wrap">
+                        @foreach (var tag in blog.Tags)
+                        {
+                            <span class="badge text-bg-light me-2 text-secondary">@tag</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+@code {
+    private List<Blog> blogs = new List<Blog>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize the blogs list here
+        blogs = await LoadBlogsAsync();
+    }
+
+    private Task<List<Blog>> LoadBlogsAsync()
+    {
+        // Simulate loading blogs from a data source
+        return Task.FromResult(BlogHelper.GetBlogs());
+    }
+}

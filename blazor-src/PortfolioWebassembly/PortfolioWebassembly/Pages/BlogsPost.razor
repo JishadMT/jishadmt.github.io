@@ -1,0 +1,43 @@
+@page "/blogs/{slug}"
+
+@inject IJSRuntime _jsRuntime
+
+@using PortfolioWebassembly.ViewModels
+@using PortfolioWebassembly.Services
+
+<PageTitle>@blog.Title</PageTitle>
+
+<header class="container">
+    <img src="../assets/images/blogs/@blog.Image" class="blog-banner-image mb-5">
+    <label class="text-secondary mb-3">@blog.Date</label>
+    <h2 class="mb-5">@blog.Title</h2>    
+</header>
+
+<article class="container">
+    @((MarkupString)blog.Content)
+</article>
+
+@code {
+    private Blog blog = new Blog();
+    
+    [Parameter]
+    public string? slug { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize the blogs list here
+        blog = await LoadBlogAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // This is required to make Prism library work with Blazor, as Blazor does not allow DOM manipulations 
+        await _jsRuntime.InvokeVoidAsync("Prism.highlightAll");
+    }
+
+    private Task<Blog> LoadBlogAsync()
+    {
+        // Simulate loading blogs from a data source
+        return Task.FromResult(BlogHelper.GetBlog(slug));
+    }
+}

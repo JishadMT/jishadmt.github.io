@@ -1,0 +1,21 @@
+.blog-thumbnail-container {
+    background-image: url('your-image.jpg');
+    background-size: cover; /* Scale the image to cover the container without stretching */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    border-radius: 6px;
+    height: 250px;
+}
+
+.blog-banner-image {
+    border-radius: 6px;
+    width: 100%;
+}
+
+.copy-to-clipboard-button {
+    color: white !important;
+}
+
+pre[class*=language-].line-numbers {
+    padding-left: 0 !important;
+}
