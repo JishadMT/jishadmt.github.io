@@ -117,3 +117,11 @@ img {
 .vh-90 {
     height: 90vh;
 }
+
+.max-vh-70 {
+    max-height: 70vh !important;
+}
+
+#cke_notifications_area_editor {
+    display: none !important;
+}
