@@ -1,15 +1,15 @@
 @page "/blogs/{slug}"
 
 @inject IJSRuntime _jsRuntime
+@inject HttpClient Http
 
 @using PortfolioWebassembly.ViewModels
-@using PortfolioWebassembly.Services
 
 <PageTitle>@blog.Title</PageTitle>
 
 <header class="container">
     <img src="../assets/images/blogs/@blog.Image" class="blog-banner-image mb-5">
-    <label class="text-secondary mb-3">@blog.Date</label>
+    <label class="text-secondary mb-3">@blog.Date.ToString("MMMM dd, yyyy")</label>
     <h2 class="mb-5">@blog.Title</h2>    
 </header>
 
@@ -35,9 +35,10 @@
         await _jsRuntime.InvokeVoidAsync("Prism.highlightAll");
     }
 
-    private Task<Blog> LoadBlogAsync()
+    private async Task<Blog> LoadBlogAsync()
     {
         // Simulate loading blogs from a data source
-        return Task.FromResult(BlogHelper.GetBlog(slug));
+        List<Blog> blogs = await Http.GetFromJsonAsync<List<Blog>>("assets/blogs/blogs.json");
+        return blogs.FirstOrDefault(b => b.Link == slug) ?? throw new KeyNotFoundException($"Blog with slug '{slug}' not found");
     }
 }

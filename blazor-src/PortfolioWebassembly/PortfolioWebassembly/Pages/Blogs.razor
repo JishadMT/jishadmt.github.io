@@ -1,7 +1,8 @@
 @page "/blogs"
 
 @using PortfolioWebassembly.ViewModels
-@using PortfolioWebassembly.Services
+
+@inject HttpClient Http
 
 <PageTitle>Blogs</PageTitle>
 
@@ -24,7 +25,7 @@
                 </a>
                 <div class="col px-3 py-2">
                     <a class="h4 text-decoration-none" href="blogs/@blog.Link">@blog.Title</a>
-                    <div class="text-secondary fw-light mb-3">@blog.Date</div>
+                    <div class="text-secondary fw-light mb-3">@blog.Date.ToString("MMMM dd, yyyy")</div>
                     <p>@blog.Description</p>
                     <div class="d-flex flex-row flex-wrap">
                         @foreach (var tag in blog.Tags)
@@ -44,12 +45,6 @@
     protected override async Task OnInitializedAsync()
     {
         // Initialize the blogs list here
-        blogs = await LoadBlogsAsync();
-    }
-
-    private Task<List<Blog>> LoadBlogsAsync()
-    {
-        // Simulate loading blogs from a data source
-        return Task.FromResult(BlogHelper.GetBlogs());
+        blogs = await Http.GetFromJsonAsync<List<Blog>>("assets/blogs/blogs.json");
     }
 }

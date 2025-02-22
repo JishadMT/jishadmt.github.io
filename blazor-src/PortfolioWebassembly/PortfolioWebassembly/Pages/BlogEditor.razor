@@ -1,0 +1,156 @@
+@using System.Text.Json
+@page "/blog-editor"
+@page "/blog-editor/{slug?}"
+@using PortfolioWebassembly.ViewModels
+@inject IJSRuntime JSRuntime
+@inject HttpClient Http
+
+<PageTitle>Blog Editor</PageTitle>
+
+<div class="container-fluid py-4">
+    <div class="row vh-80">
+        <!-- Editor Column -->
+        <div class="col-md-6">
+            <h2 class="mb-4">Blog Editor</h2>
+
+            <div class="accordion" id="blogDetailsAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#blogDetailsCollapse" aria-expanded="true" aria-controls="blogDetailsCollapse">
+                            Blog Details
+                        </button>
+                    </h2>
+                    <div id="blogDetailsCollapse" class="accordion-collapse collapse show" data-bs-parent="#blogDetailsAccordion">
+                        <div class="accordion-body">
+                            <div class="mb-3">
+                                <label for="blogTitle" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="blogTitle" @bind="blog.Title" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="blogDescription" class="form-label">Description</label>
+                                <textarea class="form-control" id="blogDescription" rows="2" @bind="blog.Description"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="blogDate" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="blogDate" @bind="blog.Date" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="blogImage" class="form-label">Image URL</label>
+                                <input type="text" class="form-control" id="blogImage" @bind="blog.Image" />
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="blogTags" class="form-label">Tags (comma-separated)</label>
+                                <input type="text" class="form-control" id="blogTags" @bind="tagsInput" @bind:event="oninput" />
+                                <div class="mt-2">
+                                    @foreach (var tag in blog?.Tags)
+                                    {
+                                        <span class="badge text-bg-light me-2 text-secondary">@tag</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-3">
+                <label for="editor" class="form-label">Content</label>
+                <div id="editor">
+                    @((MarkupString)@blog.Content)
+                </div>
+            </div>
+
+            <button class="btn btn-primary" @onclick="SaveBlog">Save Blog</button>
+        </div>
+
+        <!-- Preview Column -->
+        <div class="col-md-6">
+            <h2 class="mb-4">Preview</h2>
+            <div class="border rounded p-3">
+                <header class="container">
+                    <img src="../assets/images/blogs/@blog.Image" class="blog-banner-image mb-5">
+                    <label class="text-secondary mb-3">@blog.Date.ToString("MMMM dd, yyyy")</label>
+                    <h2 class="mb-5">@blog.Title</h2>    
+                </header>
+                <div class="px-3">
+                    @((MarkupString)editorContent)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string? slug { get; set; } = string.Empty;
+    private Blog blog = new Blog() { Date = DateTime.Today, Tags = new List<string>() };
+    private string editorContent = "";
+    private DotNetObjectReference<BlogEditor>? objRef;
+    private string tagsInput = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize the blogs list here
+        blog = await LoadBlogAsync();
+        editorContent = blog.Content;
+        tagsInput = string.Join(",", blog.Tags ?? new List<string>());
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            objRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("initCKEditor", objRef);
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnEditorChange()
+    {
+        editorContent = await JSRuntime.InvokeAsync<string>("getCKEditorContent");
+        blog.Content = editorContent;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        objRef?.Dispose();
+    }
+
+    private async Task SaveBlog()
+    {
+        var blogs = await Http.GetFromJsonAsync<List<Blog>>("assets/blogs/blogs.json") ?? new List<Blog>();
+
+        // Update existing blog or add new one
+        var existingBlog = blogs.FirstOrDefault(b => b.Link == blog.Link);
+        if (existingBlog != null)
+        {
+            var index = blogs.IndexOf(existingBlog);
+            blogs[index] = blog;
+        }
+        else
+        {
+            blog.Id = blogs.Count + 1;
+            blog.Tags = tagsInput.Split(',').Select(t => t.Trim()).ToList();
+            blogs = blogs.Prepend(blog).ToList();
+        }
+
+        var options = new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+        var jsonString = JsonSerializer.Serialize(blogs, options);
+        
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", jsonString);
+        await JSRuntime.InvokeVoidAsync("alert", "Blog content copied to clipboard! Paste it in blogs.json file, and reserve application to update the blogs list.");
+    }
+    
+    private async Task<Blog> LoadBlogAsync()
+    {
+        List<Blog> blogs = await Http.GetFromJsonAsync<List<Blog>>("assets/blogs/blogs.json");
+        return blogs.FirstOrDefault(b => b.Link == slug) ?? new Blog() { Date = DateTime.Today, Tags = new List<string>() };
+    }
+}
