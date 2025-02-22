@@ -109,3 +109,11 @@
 img {
     max-width: 100%;
 }
+
+.vh-80 {
+    height: 80vh;
+}
+
+.vh-90 {
+    height: 90vh;
+}
