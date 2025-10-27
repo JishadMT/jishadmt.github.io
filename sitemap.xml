@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://jishadmt.github.io/</loc>
+    <lastmod>2024-07-27</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://jishadmt.github.io/blogs</loc>
+    <lastmod>2024-07-27</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://jishadmt.github.io/blogs/nuget-copy-post-build</loc>
+    <lastmod>2025-09-21</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://jishadmt.github.io/blogs/csharp-dictionary-containskey-vs-trygetvalue-benchmark</loc>
+    <lastmod>2024-11-22</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://jishadmt.github.io/blogs/renamed-file-not-picked-by-git-changes</loc>
+    <lastmod>2024-11-09</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://jishadmt.github.io/blogs/delete-files-from-command-promt-ending-with-specific-name</loc>
+    <lastmod>2024-11-09</lastmod>
+    <priority>0.6</priority>
+  </url>
+</urlset>
